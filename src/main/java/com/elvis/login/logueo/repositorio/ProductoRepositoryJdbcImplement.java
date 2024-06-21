@@ -39,7 +39,7 @@ public class ProductoRepositoryJdbcImplement implements Repositorys<Producto>{
     @Override
     public Producto porId(Integer id) throws SQLException {
         Producto producto = null;
-        try (PreparedStatement smt = conn.prepareStatement("SELECT p.*, c.nombre as categoria FROM articulo as p inner join categoria as c ON ( p.idcategoria = c.idcategoria) where p.idarticulo =?;)")) {
+        try (PreparedStatement smt = conn.prepareStatement("SELECT p.*, c.nombre as nombre_categoria FROM articulo as p inner join categoria as c ON(p.idcategoria=c.idcategoria) WHERE p.idarticulo=?")) {
             smt.setInt(1, id);
             try (ResultSet rs = smt.executeQuery()) {
                 if (rs.next()) {

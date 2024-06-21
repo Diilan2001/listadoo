@@ -45,7 +45,7 @@
         </tbody>
     </table>
     <% } %>
-    <p><a href="<%= request.getContextPath() %>/productos" class="btn btn-primary">Seguir comprando</a></p>
+    <p><a href="<%= request.getContextPath() %>/Producto" class="btn btn-primary">Seguir comprando</a></p>
     <p><a href="<%= request.getContextPath() %>/index.html" class="btn btn-secondary">Volver</a></p>
 </div>
 

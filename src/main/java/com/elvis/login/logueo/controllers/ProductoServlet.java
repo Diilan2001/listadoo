@@ -21,17 +21,17 @@ import java.util.Optional;
 public class ProductoServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Connection con = (Connection) req.getAttribute("conn");
+        Connection conn = (Connection) req.getAttribute("conn");
 
-        ProductoService service = new ProductoServiceJdbcImplement(con);
+        ProductoService service = new ProductoServiceJdbcImplement(conn);
         List<Producto> productos = service.listar();
         LoginService auth = new LoginServiceImplement();
         Optional<String> usernameOptional = auth.getUserName(req);
 
         req.setAttribute("productos", productos);
-        usernameOptional.ifPresent(username -> req.setAttribute("username", username));
+        req.setAttribute("username", usernameOptional);
 
         //aqui es donde reenviamos la info al jsp
-        resp.sendRedirect(req.getContextPath()+ "/listadoProductos.jsp");
+        getServletContext().getRequestDispatcher("/listadoProductos.jsp").forward(req, resp);
     }
 }

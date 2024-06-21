@@ -4,6 +4,9 @@
          pageEncoding="UTF-8" %>
 <%@ page import="com.elvis.login.logueo.models.Producto" %>
 <%@ page import="java.util.List" %>
+<%@ page import="java.util.Optional" %>
+<% Optional<String> username=(Optional)request.getAttribute("username"); %>
+<% List<Producto> productos = (List<Producto>) request.getAttribute("productos"); %>
 
 <!DOCTYPE html>
 <html>
@@ -17,18 +20,19 @@
 <body>
 <div class="container mt-5">
     <h1>Listado de productos para comprar</h1>
-    <%-- Optional username display --%>
-    <% String username = (String) request.getAttribute("username"); %>
+
+
+
     <% if (username != null && !username.isEmpty()) { %>
-    <div class='alert alert-primary' role='alert'> HOLA <%= username %> ¡Bienvenido!</div>
+    <a href="<%=request.getContextPath()%>/formulario">CREAR NUEVO PRODUCTO</a>
     <% } %>
     <table class="table">
         <thead class="thead-dark">
         <tr>
             <th>ID PRODUCTO</th>
-            <th>nombre</th>
-            <th>categoria</th>
-            <th>descripción</th>
+            <th>Nombre</th>
+            <th>Categoria</th>
+            <th>Descripción</th>
 
             <% if (username != null && !username.isEmpty()) { %>
             <th>valor</th>
@@ -37,25 +41,25 @@
         </tr>
         </thead>
         <tbody>
-        <% List<Producto> productos = (List<Producto>) request.getAttribute("productos"); %>
+
         <% if (productos != null && !productos.isEmpty()) { %>
+
         <% for (Producto p : productos) { %>
         <tr>
             <td><%= p.getIdProducto() %></td>
             <td><%= p.getNombre() %></td>
-            <td><%= p.getCategoria() %></td>
+            <td><%= p.getCategoria().getNombre() %></td>
             <td><%= p.getDescripcion() %></td>
             <%-- Display these columns conditionally if user is logged in --%>
             <% if (username != null && !username.isEmpty()) { %>
             <td><%= p.getPrecio() %></td>
-            <td><a class="btn btn-primary" href="<%= request.getContextPath() %>/agregar-carro?id=<%= p.getIdProducto() %>">Añadir al carro</a></td>
+            <td><a class="btn btn-primary" href="<%= request.getContextPath() %>/agregar-carro?id=<%= p.getIdProducto() %>">Añadir al carro</a>
+                <a class="btn btn-primary" href="<%= request.getContextPath() %>/agregar-carro?id=<%= p.getIdProducto() %>">Eliminar</a></td>
+
             <% } %>
         </tr>
         <% } %>
         <% } else { %>
-        <tr>
-            <td colspan="6">No hay productos disponibles.</td> <%-- Colspan debe coincidir con el número de columnas en tu tabla --%>
-        </tr>
         <% } %>
         </tbody>
     </table>
