@@ -1,6 +1,7 @@
 package com.elvis.login.logueo.models;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,6 +31,16 @@ public class Carro {
     }
     public List<ItemCarro> getItems(){
         return items;
+    }
+    public void removeItemCarro(ItemCarro itemCarro) {
+        Iterator<ItemCarro> iterator = items.iterator();
+        while (iterator.hasNext()) {
+            ItemCarro currentItem = iterator.next();
+            if (currentItem.equals(itemCarro)) {
+                iterator.remove();
+                break; // Se asume que solo habrá una ocurrencia del item en el carrito
+            }
+        }
     }
     public double getTotal(){
         return items.stream().mapToDouble(ItemCarro::getImporte).sum();
